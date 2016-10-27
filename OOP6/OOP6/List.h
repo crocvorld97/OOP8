@@ -1,6 +1,5 @@
 #pragma once
-#include <iostream>
-using namespace std;
+#include "Exeption.h"
 #include "Vector.h"
 
 template <class T>
@@ -13,10 +12,10 @@ private:
 		list* next;
 	};
 	list *head;
-	
+
 	int listSize = 0;
 public:
-	
+
 	List();
 	List(const List &a);
 	int getListSize();
@@ -24,12 +23,15 @@ public:
 	void show();
 	List& operator--();
 	List operator+(List a);
-	List& operator=(List *a);
+	List& operator=(List &a);
+	
 	bool operator==(List &b);
 	bool operator()();
 	bool operator<(List a);
+	List& operator/(T a);
 	T& operator[](int i)
 	{
+		if (i < 0 || i >listSize) throw IncorretIndex();
 		list *temp = head;
 		for (int j = 0; j < i; j++)
 		{
@@ -41,7 +43,17 @@ public:
 	//~List();
 };
 
-
+template<class T> List<T> & List<T>::operator/(T a)
+{
+	if (a == NULL) throw NullDevision();
+	list *temp = head;
+	while (temp != NULL)
+	{
+		temp->object /= a;
+		temp = temp->next;
+	}
+	return *this;
+}
 
 template <class T> List<T>::List()
 {
@@ -63,6 +75,7 @@ template <class T> int List<T>::getListSize()
 
 template <class T> void List<T>::add(T objectForAdd)
 {
+	if (listSize > 4) throw ListOverflow();
 	list *temp = new list;
 	temp->object = objectForAdd;
 	temp->next = head;
@@ -95,11 +108,13 @@ template <> void List<Vector>::show()
 	delete temp;
 }
 
-template <class T> List<T>& List<T>::operator=(List *a)
+template <class T> List<T>& List<T>::operator=(List &a)
 {
-	this->head = a->head;
+	
+	this->head = a.head;
 	return *this;
 }
+
 
 template <class T> List<T> List<T>::operator+(List a)
 {
@@ -125,6 +140,8 @@ template <class T> bool List<T>::operator<(List b)
 	else
 		return false;
 }
+
+
 
 /*template <> bool List<Vector>::operator<(List<Vector> b)
 {
@@ -172,9 +189,11 @@ template <class T> bool List<T>::operator==(List &list2)
 
 template <class T> List<T>& List<T>::operator--()
 {
+	if (this->listSize <= 0) throw EmptyList();
 	list *temp = this->head->next;
 	delete this->head;
 	this->head = temp;
+	this->listSize--;
 	return *this;
 }
 
