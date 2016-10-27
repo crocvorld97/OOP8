@@ -1,0 +1,5 @@
+﻿  OOP6.cpp
+e:\visual15projects\oop7\oop6\oop6\oop6.cpp(97): error C2678: бинарный "<": не найден оператор, принимающий левый операнд типа "Vector" (или приемлемое преобразование отсутствует)
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\system_error(436): note: может быть "bool std::operator <(const std::error_condition &,const std::error_condition &) noexcept"
+  c:\program files (x86)\microsoft visual studio 14.0\vc\include\system_error(427): note: или       "bool std::operator <(const std::error_code &,const std::error_code &) noexcept"
+  e:\visual15projects\oop7\oop6\oop6\oop6.cpp(97): note: при попытке сопоставить список аргументов "(Vector, Vector)"
